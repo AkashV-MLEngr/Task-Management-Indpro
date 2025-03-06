@@ -173,3 +173,97 @@ fetch("https://your-backend-url/api/tasks")
 - Handles API failures gracefully with retry logic
 - Uses loading indicators for network calls
 
+---
+## Deployment
+### Backend Deployment (AWS EC2 + PM2)
+
+## Prerequisites
+- AWS EC2 instance running Ubuntu
+- Node.js installed on the server
+- PM2 installed globally (`npm install -g pm2`)
+- MySQL database set up
+
+## Deployment Steps
+
+### Connect to EC2 Instance
+SSH into your AWS EC2 instance:
+
+```sh
+ssh -i your-key.pem ubuntu@your-ec2-ip
+```
+
+### Clone the Backend Repository
+
+```sh
+git clone https://github.com/your-repo.git backend
+cd backend
+```
+
+### Install Dependencies
+
+```sh
+npm install
+```
+
+### Configure Environment Variables
+Create a `.env` file and add the following:
+
+```env
+DB_HOST=your_database_host
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_NAME=task_management
+JWT_SECRET=your_jwt_secret
+```
+
+### Start the Backend with PM2
+
+```sh
+pm2 start server.js --name task-backend
+```
+
+### Enable Auto-Restart on Server Reboot
+
+```sh
+pm2 startup
+pm2 save
+```
+
+### Monitor Logs
+
+```sh
+pm2 logs task-backend
+```
+
+---
+
+### Frontend Deployment (AWS S3)
+
+Your frontend is deployed on AWS S3. Here’s how to update and deploy:
+
+## 1. Build the React Native Web App
+If you are using **React Native for Web**, first generate the web build:
+
+```sh
+npm run build
+```
+
+This will create a `build/` folder.
+
+## 2. Upload to AWS S3
+- Go to the **AWS S3 Console**.
+- Select your **S3 bucket** for deployment.
+- Upload the `build/` folder contents.
+- Set **public-read** permissions (if needed).
+- Enable **Static Website Hosting** under **Properties**.
+
+## 3. Update AWS CloudFront (Optional)
+If using **CloudFront** for caching:
+
+```sh
+aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+```
+
+
+
+
