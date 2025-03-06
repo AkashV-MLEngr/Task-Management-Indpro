@@ -263,6 +263,7 @@ If using **CloudFront** for caching:
 ```sh
 aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
 ```
+![Uploading Screenshot 2025-03-06 at 9.35.55 PM.png…]()
 
 
 
